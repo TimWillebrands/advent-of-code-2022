@@ -26,7 +26,7 @@ const input = inputFull
   .split("\r\n")
   .map((line) => line.split(" ") as [Piece, Key])
   .map((line) => ({
-    win: Object.keys(daRules).findIndex((key) => key === line[1]) * 3, // Look ma, no branches :)
+    win: Object.keys(daRules).indexOf(line[1]) * 3, // Look ma, no branches :)
     piece: daRules[line[1]][line[0]],
   }))
   .map((line) => line.piece + line.win)

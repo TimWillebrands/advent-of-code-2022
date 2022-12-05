@@ -34,7 +34,6 @@ const result = sections[1]
   )
   .filter((move) => move.length > 0)
   .reduce((stacks, move) => {
-    console.log(move, move[1] - 1, stacks);
     const moved = stacks[move[1] - 1].splice(-move[0]);
     stacks[move[2] - 1].push(...moved);
     return stacks;

@@ -5,7 +5,6 @@ const lines = inputFull
   .split("\n")
   .filter((line) => line !== "")
   .map((line) => line.split(" "))
-  // .slice(0, 100)
   .reduce((acc, line) => {
     if (line[1] === "cd") {
       if (line[2] === "..") acc.path.pop();

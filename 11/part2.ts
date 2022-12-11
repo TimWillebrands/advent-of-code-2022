@@ -18,39 +18,27 @@ const monkeys = inputFull
       (item % BigInt(monkey[3].slice(21))) === BigInt(0)
         ? Number(monkey[4].split("monkey ")[1])
         : Number(monkey[5].split("monkey ")[1]),
+    divisor: BigInt(monkey[3].slice(21)),
   }));
 
+// D-: Gestolen van: https://www.reddit.com/r/adventofcode/comments/ziktdy/2022_day_11_part_2_trick_for_part_2_is_off/
+const product = monkeys.reduce((acc, monkey) => acc * monkey.divisor, 1n);
 const monkeyItems = monkeys.map((monkey) => monkey.startItems.map(BigInt));
 const monkeyInspections = new Array<number>(monkeys.length).fill(0);
-let lastInstpections = [...monkeyInspections];
 
 for (let round = 0; round < 10000; round++) {
-  let inspections = 0;
   for (let m = 0; m < monkeys.length; m++) {
     const monkey = monkeys[m];
     const items = monkeyItems[m];
 
     while (items.length > 0) {
       const old = items.shift();
-      const item = monkey.operation(old!);
+      const item = monkey.operation(old!) % product;
       const target = monkey.target(item);
       monkeyItems[target].push(item);
       monkeyInspections[m]++;
-      inspections++;
     }
   }
-  const meta = monkeyInspections.map((insp, i) => insp - lastInstpections[i]);
-  if (meta[2] === 2) {
-    console.log(
-      round,
-      inspections,
-      "\t",
-      monkeyInspections,
-      "\t",
-      meta,
-    );
-  }
-  lastInstpections = [...monkeyInspections];
 }
 
-// console.log(monkeyItems, monkeyInspections);
+console.log(monkeys, monkeyInspections);

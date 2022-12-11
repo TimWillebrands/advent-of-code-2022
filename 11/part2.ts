@@ -22,19 +22,35 @@ const monkeys = inputFull
 
 const monkeyItems = monkeys.map((monkey) => monkey.startItems.map(BigInt));
 const monkeyInspections = new Array<number>(monkeys.length).fill(0);
+let lastInstpections = [...monkeyInspections];
 
 for (let round = 0; round < 10000; round++) {
+  let inspections = 0;
   for (let m = 0; m < monkeys.length; m++) {
     const monkey = monkeys[m];
     const items = monkeyItems[m];
 
     while (items.length > 0) {
-      const item = monkey.operation(items.shift()!);
+      const old = items.shift();
+      const item = monkey.operation(old!);
       const target = monkey.target(item);
       monkeyItems[target].push(item);
       monkeyInspections[m]++;
+      inspections++;
     }
   }
+  const meta = monkeyInspections.map((insp, i) => insp - lastInstpections[i]);
+  if (meta[2] === 2) {
+    console.log(
+      round,
+      inspections,
+      "\t",
+      monkeyInspections,
+      "\t",
+      meta,
+    );
+  }
+  lastInstpections = [...monkeyInspections];
 }
 
-console.log(monkeyItems, monkeyInspections);
+// console.log(monkeyItems, monkeyInspections);

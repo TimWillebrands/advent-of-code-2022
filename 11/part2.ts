@@ -41,4 +41,4 @@ for (let round = 0; round < 10000; round++) {
   }
 }
 
-console.log(monkeys, monkeyInspections);
+console.log(monkeyInspections);

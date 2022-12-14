@@ -32,7 +32,7 @@ const start = map.indexOf("S");
 const end = map.indexOf("E");
 
 // Dijkstra goes from here
-const graph = new Array(width * heigth).fill(null).map((i) => ({
+const graph = new Array(width * heigth).fill(null).map((_) => ({
   toStart: Number.MAX_SAFE_INTEGER,
   previous: -1,
   visited: false,

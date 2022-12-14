@@ -28,10 +28,14 @@ const [[xmin, xmax], [ymin, ymax]] = input
 
 console.log(xmin, xmax, ymin, ymax);
 let blankMap = [] as string[][];
-for (let y = 0; y <= (ymax - ymin); y++) {
+for (let y = -20; y <= (ymax - ymin + 20); y++) {
   blankMap[y] = [];
-  for (let x = 0; x <= xmax; x++) {
-    blankMap[y].push(".");
+  for (let x = 0; x <= xmax + 2; x++) {
+    if (x === xmax + 2) {
+      blankMap[y].push("X");
+    } else {
+      blankMap[y].push(".");
+    }
   }
 }
 blankMap[500 - ymin][0] = "+";
@@ -78,6 +82,7 @@ while (true) {
   if (drop === "oob") {
     break;
   } else if (drop !== false) {
+    if (drop[0] === 500 - ymin && drop[1] === 0) break;
     map[drop[0]][drop[1]] = String(cycle % 10);
   }
   cycle++;

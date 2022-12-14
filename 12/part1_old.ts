@@ -1,16 +1,11 @@
 export const a = 12;
-const heights = "abcdefghijklmnopqrstuvwxyz";
-const getHeight = (char: string) => {
-  if (char === "S") return heights.indexOf("a");
-  if (char === "E") return heights.indexOf("z");
-  return heights.indexOf(char);
-};
 
+const heights = "SabcdefghijklmnopqrstuvwxyzE";
 const inputFull = await Deno.readTextFile(Deno.args[0]);
 const grid = inputFull
   .split("\n")
   .filter((line) => line !== "")
-  .map((line) => [...line].map((char) => char));
+  .map((line) => [...line].map((char) => heights.indexOf(char)));
 
 const width = grid[0].length;
 const heigth = grid.length;
@@ -28,12 +23,13 @@ const getNeighbours = (index: number) => {
   return neighbourhood;
 };
 
-const start = map.indexOf("S");
-const end = map.indexOf("E");
+const start = map.indexOf(0);
+const end = map.indexOf(27);
 
 // Dijkstra goes from here
-const graph = new Array(width * heigth).fill(null).map((_) => ({
-  toStart: Number.MAX_SAFE_INTEGER,
+
+const graph = new Array(width * heigth).fill(null).map((i) => ({
+  toStart: 999999999999999,
   previous: -1,
   visited: false,
 }));
@@ -43,23 +39,20 @@ graph[start].toStart = 0;
 const toVisit = [start];
 
 while (toVisit.length > 0) {
-  const node = toVisit.sort((a, b) => graph[a].toStart - graph[b].toStart)
-    .shift()!;
-
-  if (node === end) break;
-
-  const height = getHeight(map[node]);
+  const node = toVisit.pop()!;
+  const height = map[node];
 
   getNeighbours(node)
-    .filter((neighbour) => (getHeight(map[neighbour]) - (height)) <= 1)
+    .filter((neighbour) => map[neighbour] <= (height + 1))
     .forEach((neighbour) => {
-      const totalRisk = graph[node].toStart + 1;
-      if (totalRisk < graph[neighbour].toStart) {
-        graph[neighbour].toStart = totalRisk;
+      if (graph[node].toStart + 1 < graph[neighbour].toStart) {
+        graph[neighbour].toStart = graph[node].toStart + 1;
         graph[neighbour].previous = node;
         toVisit.push(neighbour);
       }
     });
+
+  graph[node].visited = true;
 }
 
 let path = [end];
@@ -67,22 +60,18 @@ while (path[0] !== start) {
   path = [graph[path[0]].previous, ...path];
 }
 
-const out = inputFull.split("\r\n").map((line, y) =>
-  [...line].map((char, x) => path.includes((width * y) + x) ? char : ".").join(
+const out = inputFull.split("\n").map((line, y) =>
+  [...line].map((char, x) => path.includes((width * y) + x) ? "." : char).join(
     "",
   )
-).join("\r\n");
+).join("\n");
 
 console.log(
   end,
-  "\r\n",
   path,
-  "\r\n",
   //  path.map((node) => [node % width, Math.floor(node / width)]),
-  path.map((node) => [node]).join(""),
-  "\r\n",
+  path.map((node) => heights.charAt(map[node])).join(""),
   path.length - 1,
-  "\r\n",
+  "\n",
   out,
 );
-

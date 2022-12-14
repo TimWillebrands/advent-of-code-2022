@@ -23,7 +23,6 @@ const getNeighbours = (index: number) => {
   return neighbourhood;
 };
 
-const start = map.indexOf(0);
 const end = map.indexOf(27);
 
 // Dijkstra goes from here
@@ -63,7 +62,18 @@ const gibRoute = (start: number, end: number) => {
   return path;
 };
 
-const path = gibRoute(start, end);
+const allTheA = map.map((node, i) => [node, i]).filter((node) => node[0] <= 1)
+  .map((node) => node[1]);
+
+const path = allTheA.reduce((shortest, node) => {
+  console.log(node, shortest.length);
+  try {
+    const route = gibRoute(node, end);
+    return shortest.length > route.length ? route : shortest;
+  } catch (err) {
+    return shortest;
+  }
+}, new Array<number>(9999999));
 
 const out = inputFull.split("\n").map((line, y) =>
   [...line].map((char, x) => path.includes((width * y) + x) ? "." : char).join(

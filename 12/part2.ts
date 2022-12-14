@@ -28,37 +28,42 @@ const end = map.indexOf(27);
 
 // Dijkstra goes from here
 
-const graph = new Array(width * heigth).fill(null).map((_) => ({
-  toStart: 999999999999999,
-  previous: -1,
-  visited: false,
-}));
+const gibRoute = (start: number, end: number) => {
+  const graph = new Array(width * heigth).fill(null).map((_) => ({
+    toStart: 999999999999999,
+    previous: -1,
+    visited: false,
+  }));
 
-graph[start].toStart = 0;
+  graph[start].toStart = 0;
+  const toVisit = [start];
 
-const toVisit = [start];
+  while (toVisit.length > 0) {
+    const node = toVisit.pop()!;
+    const height = map[node];
 
-while (toVisit.length > 0) {
-  const node = toVisit.pop()!;
-  const height = map[node];
+    getNeighbours(node)
+      .filter((neighbour) => map[neighbour] <= (height + 1))
+      .forEach((neighbour) => {
+        if (graph[node].toStart + 1 < graph[neighbour].toStart) {
+          graph[neighbour].toStart = graph[node].toStart + 1;
+          graph[neighbour].previous = node;
+          toVisit.push(neighbour);
+        }
+      });
 
-  getNeighbours(node)
-    .filter((neighbour) => map[neighbour] <= (height + 1))
-    .forEach((neighbour) => {
-      if (graph[node].toStart + 1 < graph[neighbour].toStart) {
-        graph[neighbour].toStart = graph[node].toStart + 1;
-        graph[neighbour].previous = node;
-        toVisit.push(neighbour);
-      }
-    });
+    graph[node].visited = true;
+  }
 
-  graph[node].visited = true;
-}
+  let path = [end];
+  while (path[0] !== start) {
+    path = [graph[path[0]].previous, ...path];
+  }
 
-let path = [end];
-while (path[0] !== start) {
-  path = [graph[path[0]].previous, ...path];
-}
+  return path;
+};
+
+const path = gibRoute(start, end);
 
 const out = inputFull.split("\n").map((line, y) =>
   [...line].map((char, x) => path.includes((width * y) + x) ? "." : char).join(

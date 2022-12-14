@@ -1,8 +1,5 @@
 export const a = 14;
 
-const encoder = new TextEncoder();
-const print = (str: string) => Deno.stdout.write(encoder.encode(str));
-const clear = () => (print("\x1b[2J"), print("\x1b[1:1H"));
 const minMax = (n1: number, n2: number) => [
   Math.min(n1, n2),
   Math.max(n1, n2),
@@ -32,8 +29,8 @@ const [[xmin, xmax], [ymin, ymax]] = input
 console.log(xmin, xmax, ymin, ymax);
 let blankMap = [] as string[][];
 for (let y = 0; y <= (ymax - ymin); y++) {
+  blankMap[y] = [];
   for (let x = 0; x <= xmax; x++) {
-    blankMap[y] = blankMap[y] || [];
     blankMap[y].push(".");
   }
 }
@@ -59,4 +56,32 @@ const map = input.reduce((acc, path) => {
   return acc;
 }, blankMap);
 
+function dropSand(col: number, row: number): false | [number, number] | "oob" {
+  if (col < 0 || col > (ymax - ymin)) return "oob";
+  const sand = map[col]
+    .slice(row + 1)
+    .findIndex((pos) => pos !== "." && pos !== "+") + row;
+  if (sand <= row) {
+    return false;
+  }
+  let left = dropSand(col - 1, sand);
+  if (left !== false) return left;
+  let right = dropSand(col + 1, sand);
+  if (right !== false) return right;
+
+  return [col, sand];
+}
+
+let cycle = 0;
+while (true) {
+  const drop = dropSand(500 - ymin, 0);
+  if (drop === "oob") {
+    break;
+  } else if (drop !== false) {
+    map[drop[0]][drop[1]] = String(cycle % 10);
+  }
+  cycle++;
+}
+
 map.forEach((row) => console.log(row.join("")));
+console.log(cycle);

@@ -13,7 +13,7 @@ const input = inputFull
     line.split(" -> ").map((coord) => coord.split(",").map(Number))
   );
 
-const [[xmin, xmax], [ymin, ymax]] = input
+let [[xmin, xmax], [ymin, ymax]] = input
   .flat()
   .reduce((acc, curr) => [
     [
@@ -26,12 +26,22 @@ const [[xmin, xmax], [ymin, ymax]] = input
     ],
   ], [[99999999, -99999999], [99999999, -99999999]]);
 
+const width = Number(Deno.args[1]) || 40;
+ymin -= width / 2;
+ymax += width / 2;
+xmax += 2;
+input.push([[ymin + 1, xmax], [ymax - 1, xmax]]);
+
 console.log(xmin, xmax, ymin, ymax);
 let blankMap = [] as string[][];
-for (let y = 0; y <= (ymax - ymin); y++) {
+for (let y = 1; y <= (ymax - ymin); y++) {
   blankMap[y] = [];
   for (let x = 0; x <= xmax; x++) {
-    blankMap[y].push(".");
+    if (x === xmax) {
+      blankMap[y].push("#");
+    } else {
+      blankMap[y].push(".");
+    }
   }
 }
 blankMap[500 - ymin][0] = "+";
@@ -44,11 +54,11 @@ const map = input.reduce((acc, path) => {
       const [minY, maxY] = minMax(segment[0], next[0]);
       if (minX === maxX) {
         for (let y = minY; y <= maxY; y++) {
-          acc[y - ymin][minX] = "X";
+          acc[y - ymin][minX] = "#";
         }
       } else {
         for (let x = minX; x <= maxX; x++) {
-          acc[minY - ymin][x] = "X";
+          acc[minY - ymin][x] = "#";
         }
       }
     }
@@ -71,16 +81,25 @@ function dropSand(col: number, row: number): false | [number, number] | "oob" {
 
   return [col, sand];
 }
+map.forEach((row) => console.log(row.join("")));
 
 let cycle = 0;
 while (true) {
-  const drop = dropSand(500 - ymin, 0);
+  const drop = dropSand(500 - ymin, -1);
   if (drop === "oob") {
     break;
   } else if (drop !== false) {
+    if (drop[0] === 500 - ymin && drop[1] === 0) break;
     map[drop[0]][drop[1]] = String(cycle % 10);
+  } else if (drop === false) {
+    break;
   }
   cycle++;
+
+  if ((cycle % 1000) === 0) {
+    map.forEach((row) => console.log(row.join("")));
+    console.log();
+  }
 }
 
 map.forEach((row) => console.log(row.join("")));

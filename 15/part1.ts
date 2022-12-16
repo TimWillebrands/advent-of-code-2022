@@ -37,6 +37,4 @@ const input = inputFull
     return acc;
   }, new Array<number[]>());
 
-// .reduce(intersect van sensor-areas met y-as berekenen en union van die allemaal maken oid);
-
 console.log(input, Math.abs(input[0][0] - input[0][1]));

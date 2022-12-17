@@ -1,0 +1,122 @@
+digraph G {
+	 X [label=" X\nflow: 0"]
+	 X -> YV -> RP;
+	VN [label="VN\nflow: 0"]
+	VN -> WL -> ET;
+	NT [label="NT\nflow: 0"]
+	NT -> CU -> MQ;
+	ON [label="ON\nflow: 0"]
+	ON -> AA -> FP;
+	CW [label="CW\nflow: 0"]
+	CW -> UH -> WY;
+	KN [label="KN\nflow: 0"]
+	KN -> JL -> MQ;
+	VT [label="VT\nflow: 0"]
+	VT -> CU -> UI;
+	CR [label="CR\nflow: 0"]
+	CR -> OA -> QQ;
+	YX [label="YX\nflow: 0"]
+	YX -> YJ -> CI;
+	WL [label="WL\nflow: 7"]
+	WL -> OQ -> VN -> PU -> VF -> UA;
+	HV [label="HV\nflow: 0"]
+	HV -> OQ -> OK;
+	JM [label="JM\nflow: 21"]
+	JM -> RG -> OH -> JE;
+	XF [label="XF\nflow: 24"]
+	XF -> OL -> TM;
+	VD [label="VD\nflow: 0"]
+	VD -> MY -> OK;
+	AA [label="AA\nflow: 0"]
+	AA -> KO -> ON -> UI -> QE -> VF;
+	JE [label="JE\nflow: 0"]
+	JE -> JM -> NZ;
+	UN [label="UN\nflow: 0"]
+	UN -> UA -> WY;
+	CC [label="CC\nflow: 0"]
+	CC -> IV -> CU;
+	PU [label="PU\nflow: 0"]
+	PU -> JL -> WL;
+	UA [label="UA\nflow: 0"]
+	UA -> WL -> UN;
+	OJ [label="OJ\nflow: 13"]
+	OJ -> AZ -> FP -> MY -> OL -> ET;
+	CJ [label="CJ\nflow: 0"]
+	CJ -> MQ -> WS;
+	IV [label="IV\nflow: 0"]
+	IV -> NZ -> CC;
+	NZ [label="NZ\nflow: 4"]
+	NZ -> WS -> IV -> IU -> EQ -> JE;
+	TM [label="TM\nflow: 0"]
+	TM -> HL -> XF;
+	SG [label="SG\nflow: 0"]
+	SG -> MQ -> OH;
+	QQ [label="QQ\nflow: 12"]
+	QQ -> CR;
+	WX [label="WX\nflow: 15"]
+	WX -> CI -> SN;
+	VF [label="VF\nflow: 0"]
+	VF -> WL -> AA;
+	RP [label="RP\nflow: 0"]
+	RP -> WY -> XB;
+	SN [label="SN\nflow: 0"]
+	SN -> WX -> OI;
+	HL [label="HL\nflow: 0"]
+	HL -> OK -> TM;
+	ET [label="ET\nflow: 0"]
+	ET -> OJ -> VN;
+	UI [label="UI\nflow: 0"]
+	UI -> AA -> VT;
+	FP [label="FP\nflow: 0"]
+	FP -> ON -> OJ;
+	IU [label="IU\nflow: 0"]
+	IU -> NZ -> QE;
+	JQ [label="JQ\nflow: 0"]
+	JQ -> HR -> CU;
+	CU [label="CU\nflow: 5"]
+	CU -> NT -> VT -> JQ -> CC;
+	WY [label="WY\nflow: 19"]
+	WY -> CW -> UN -> RP;
+	YJ [label="YJ\nflow: 16"]
+	YJ -> YX;
+	HR [label="HR\nflow: 0"]
+	HR -> JQ -> JL;
+	RM [label="RM\nflow: 11"]
+	RM -> OI -> AZ;
+	RG [label="RG\nflow: 0"]
+	RG -> YV -> JM;
+	MY [label="MY\nflow: 0"]
+	MY -> VD -> OJ;
+	QE [label="QE\nflow: 0"]
+	QE -> AA -> IU;
+	OK [label="OK\nflow: 17"]
+	OK -> HL -> UH -> VD -> HV;
+	CI [label="CI\nflow: 0"]
+	CI -> WX -> YX;
+	OL [label="OL\nflow: 0"]
+	OL -> XF -> OJ;
+	WS [label="WS\nflow: 0"]
+	WS -> CJ -> NZ;
+	OH [label="OH\nflow: 0"]
+	OH -> JM -> SG;
+	OQ [label="OQ\nflow: 0"]
+	OQ -> WL -> HV;
+	OA [label="OA\nflow: 0"]
+	OA -> CR -> MQ;
+	OI [label="OI\nflow: 0"]
+	OI -> SN -> RM;
+	YV [label="YV\nflow: 25"]
+	YV -> RG -> XB;
+	JL [label="JL\nflow: 3"]
+	JL -> KO -> HR -> PU -> KN -> EQ;
+	AZ [label="AZ\nflow: 0"]
+	AZ -> OJ -> RM;
+	UH [label="UH\nflow: 0"]
+	UH -> CW -> OK;
+	KO [label="KO\nflow: 0"]
+	KO -> AA -> JL;
+	EQ [label="EQ\nflow: 0"]
+	EQ -> NZ -> JL;
+	MQ [label="MQ\nflow: 10"]
+	MQ -> CJ -> OA -> NT -> SG -> KN;
+}

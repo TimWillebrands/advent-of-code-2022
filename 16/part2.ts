@@ -29,26 +29,29 @@ const map = input.reduce(
   {} as Record<string, Node>,
 );
 
+let traversal = 0;
 const traverse = memoizeWith(
-  (node: Node, time: number, opened: string[]) =>
-    node.id + String(time) + opened.join(""),
-  (node: Node, time: number, opened: string[]): number => {
-    if (time <= 0) return 0;
+  (node: Node, time: number, opened: string[], wait: boolean) =>
+    node.id + String(time) + opened.join("") + String(wait),
+  (node: Node, time: number, opened: string[], wait: boolean): number => {
+    if (time <= 0) return wait ? traverse(map["AA"], 26, opened, false) : 0;
 
     let score = Math.max(
-      ...node.tunnels.map((nb) => traverse(map[nb], time - 1, opened)),
+      ...node.tunnels.map((nb) => traverse(map[nb], time - 1, opened, wait)),
     );
     if (!opened.includes(node.id) && node.flow > 0) {
       score = Math.max(
         score,
-        (time - 1) * node.flow + traverse(node, time - 1, [...opened, node.id]),
+        (time - 1) * node.flow +
+          traverse(node, time - 1, [...opened, node.id], wait),
       );
     }
 
+    console.log(traversal++);
     return score;
   },
 );
 
-const thething = traverse(map["AA"], 30, []);
+const thething = traverse(map["AA"], 26, [], true);
 
 console.log(map, thething);

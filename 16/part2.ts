@@ -1,4 +1,4 @@
-import { memoizeWith } from "https://deno.land/x/ramda@v0.27.2/mod.ts";
+import { ld } from "https://x.nest.land/deno-lodash@1.0.0/mod.ts";
 
 export const a = 16;
 const inputFull = await Deno.readTextFile(Deno.args[0]);
@@ -30,9 +30,7 @@ const map = input.reduce(
 );
 
 let traversal = 0;
-const traverse = memoizeWith(
-  (node: Node, time: number, opened: string[], wait: boolean) =>
-    node.id + String(time) + opened.join("") + String(wait),
+const traverse = ld.memoize(
   (node: Node, time: number, opened: string[], wait: boolean): number => {
     if (time <= 0) return wait ? traverse(map["AA"], 26, opened, false) : 0;
 
@@ -47,11 +45,11 @@ const traverse = memoizeWith(
       );
     }
 
-    console.log(traversal++);
+    if (traversal++ % 10000 === 0) console.log(traversal);
     return score;
   },
+  (node: Node, time: number, opened: string[], wait: boolean) =>
+    node.id + String(time) + opened.join("") + String(wait),
 );
 
-const thething = traverse(map["AA"], 26, [], true);
-
-console.log(map, thething);
+console.log(map, traverse(map["AA"], 26, [], true));
